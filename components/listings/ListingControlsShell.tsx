@@ -30,7 +30,7 @@ export function ListingControlsShell({
           placeholder={searchPlaceholder}
         />
 
-        <div className="flex w-full items-center gap-3 overflow-x-auto px-1 py-1 pb-2 font-dm-sans md:w-auto md:pb-1">
+        <div className="flex w-full flex-wrap items-center gap-3 px-1 py-1 font-dm-sans md:w-auto">
           {children}
         </div>
       </div>

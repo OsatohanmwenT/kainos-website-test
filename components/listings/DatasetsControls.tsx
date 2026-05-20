@@ -44,6 +44,7 @@ export function DatasetsControls({
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
       stats={stats}
+      showStats={false}
     >
       <FilterSelect
         value={selectedType}
