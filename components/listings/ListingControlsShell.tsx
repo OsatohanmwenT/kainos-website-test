@@ -9,6 +9,7 @@ interface ListingControlsShellProps {
   children: ReactNode;
   searchPlaceholder?: string;
   className?: string;
+  showStats?: boolean;
 }
 
 export function ListingControlsShell({
@@ -18,6 +19,7 @@ export function ListingControlsShell({
   children,
   searchPlaceholder,
   className = "border-y",
+  showStats = true,
 }: ListingControlsShellProps) {
   return (
     <div className={`flex w-full flex-col bg-white border-neutral-200 ${className}`}>
@@ -33,7 +35,7 @@ export function ListingControlsShell({
         </div>
       </div>
 
-      <StatsSummaryRow stats={stats} />
+      {showStats && <StatsSummaryRow stats={stats} />}
     </div>
   );
 }

@@ -50,12 +50,14 @@ export interface PublicReport {
   publication_date: string | null;
   citation_format?: string | null;
   allow_download: boolean;
+  download_url?: string | null;
   stored_items?: {
     data_type?: string | null;
     year?: number | string | null;
     frequency?: string | null;
     indicator?: string | null;
     file_name?: string | null;
+    download_url?: string | null;
   } | null;
 }
 
@@ -66,6 +68,7 @@ export interface PublicDataset {
   authors: string[] | string | null;
   publication_date: string | null;
   allow_download: boolean;
+  download_url?: string | null;
   stored_items?: {
     data_type?: string | null;
     year?: number | string | null;
@@ -73,6 +76,7 @@ export interface PublicDataset {
     indicator?: string | null;
     file_name?: string | null;
     label?: string | null;
+    download_url?: string | null;
   } | null;
 }
 

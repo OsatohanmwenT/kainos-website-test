@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { PublicDataset } from "@/lib/api/types";
 import { Download, Lock } from "lucide-react";
+import Link from "next/link";
 
 export function DatasetCard({ dataset }: { dataset: PublicDataset }) {
   const dataType = dataset.stored_items?.data_type ?? null;
@@ -8,6 +9,12 @@ export function DatasetCard({ dataset }: { dataset: PublicDataset }) {
   const frequency = dataset.stored_items?.frequency ?? null;
   const label = dataset.stored_items?.label ?? null;
   const indicator = dataset.stored_items?.indicator ?? null;
+  const downloadUrl = dataset.download_url ?? dataset.stored_items?.download_url ?? null;
+  const accessHref = `mailto:info@kainosedge.com?subject=${encodeURIComponent(
+    `Dataset access request: ${dataset.public_title}`
+  )}&body=${encodeURIComponent(
+    `Hello KainosEdge team,\n\nI would like to request access to "${dataset.public_title}".\n\nThank you.`
+  )}`;
 
   const formattedDate = dataset.publication_date
     ? new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(
@@ -80,22 +87,34 @@ export function DatasetCard({ dataset }: { dataset: PublicDataset }) {
       </div>
 
       <div className="border-t border-neutral-100 pt-4 flex flex-col sm:flex-row gap-3 mt-auto">
-        {dataset.allow_download ? (
-          <Button className="w-full sm:flex-1 h-13 px-6 cursor-pointer rounded-2xl bg-primary-500 hover:bg-primary-700 text-white">
-            <Download className="w-4 h-4 mr-2" />
-            Download Dataset
+        {dataset.allow_download && downloadUrl ? (
+          <Button asChild className="w-full sm:flex-1 h-13 px-6 cursor-pointer rounded-2xl bg-primary-500 hover:bg-primary-700 text-white">
+            <a href={downloadUrl} download>
+              <Download className="w-4 h-4 mr-2" />
+              Download Dataset
+            </a>
+          </Button>
+        ) : dataset.allow_download ? (
+          <Button asChild className="w-full sm:flex-1 h-13 px-6 cursor-pointer rounded-2xl bg-[#D4A017] hover:bg-[#b08513] text-white">
+            <a href={accessHref}>
+              Request Access
+              <Lock className="w-4 h-4 ml-2" />
+            </a>
           </Button>
         ) : (
-          <Button className="w-full sm:flex-1 h-13 px-6 cursor-pointer rounded-2xl bg-[#D4A017] hover:bg-[#b08513] text-white">
-            Request Access
-            <Lock className="w-4 h-4 ml-2" />
+          <Button asChild className="w-full sm:flex-1 h-13 px-6 cursor-pointer rounded-2xl bg-[#D4A017] hover:bg-[#b08513] text-white">
+            <a href={accessHref}>
+              Request Access
+              <Lock className="w-4 h-4 ml-2" />
+            </a>
           </Button>
         )}
         <Button
+          asChild
           variant="outline"
           className="w-full sm:w-auto h-13 px-6 cursor-pointer rounded-2xl border-primary-500 text-primary-500! hover:bg-primary-50"
         >
-          View Details
+          <Link href={`/data/${dataset.id}`}>View Details</Link>
         </Button>
       </div>
     </div>

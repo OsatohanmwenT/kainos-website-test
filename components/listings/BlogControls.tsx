@@ -1,18 +1,14 @@
 import { FilterSelect, type FilterSelectOption } from "./FilterSelect";
 import { ListingControlsShell } from "./ListingControlsShell";
-import { sortOrderOptions, statusOptions } from "./listingOptions";
-import type { ReviewStats } from "./StatsSummaryRow";
+import { sortOrderOptions } from "./listingOptions";
 
 export interface BlogControlsProps {
   searchQuery: string;
   setSearchQuery: (val: string) => void;
   selectedCategory: string;
   setSelectedCategory: (val: string) => void;
-  selectedStatus: string;
-  setSelectedStatus: (val: string) => void;
   sortOrder: string;
   setSortOrder: (val: string) => void;
-  stats: ReviewStats;
 }
 
 const categoryOptions: FilterSelectOption[] = [
@@ -29,19 +25,17 @@ export function BlogControls({
   setSearchQuery,
   selectedCategory,
   setSelectedCategory,
-  selectedStatus,
-  setSelectedStatus,
   sortOrder,
   setSortOrder,
-  stats,
 }: BlogControlsProps) {
   return (
     <ListingControlsShell
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
-      stats={stats}
+      stats={{ pending: 0, resubmitted: 0, overdue: 0, reviewedToday: 0 }}
       searchPlaceholder="Search articles"
       className="border-b"
+      showStats={false}
     >
       <FilterSelect
         value={selectedCategory}
@@ -49,14 +43,6 @@ export function BlogControls({
         placeholder="All Types"
         options={categoryOptions}
         className="w-40"
-      />
-
-      <FilterSelect
-        value={selectedStatus}
-        onValueChange={setSelectedStatus}
-        placeholder="Status"
-        options={statusOptions}
-        className="w-35"
       />
 
       <FilterSelect

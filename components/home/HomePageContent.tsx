@@ -126,6 +126,12 @@ function LandingReportCard({ report }: { report: PublicReport }) {
   const formattedDate = report.publication_date
     ? formatDate(report.publication_date)
     : null;
+  const downloadUrl = report.download_url ?? report.stored_items?.download_url ?? null;
+  const accessHref = `mailto:info@kainosedge.com?subject=${encodeURIComponent(
+    `Access request: ${report.public_title}`
+  )}&body=${encodeURIComponent(
+    `Hello KainosEdge team,\n\nI would like to request access to "${report.public_title}".\n\nThank you.`
+  )}`;
 
   return (
     <article className="flex h-full flex-col rounded-xl border border-border-default bg-primary-50 p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1">
@@ -153,12 +159,29 @@ function LandingReportCard({ report }: { report: PublicReport }) {
           </span>
         )}
       </div>
-      <Link
-        href="/reports"
-        className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
-      >
-        {report.allow_download ? "Download Report" : "Request Access"}
-      </Link>
+      {report.allow_download && downloadUrl ? (
+        <a
+          href={downloadUrl}
+          download
+          className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
+        >
+          Download Report
+        </a>
+      ) : report.allow_download ? (
+        <Link
+          href={`/reports/${report.id}`}
+          className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
+        >
+          View Details
+        </Link>
+      ) : (
+        <a
+          href={accessHref}
+          className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
+        >
+          Request Access
+        </a>
+      )}
     </article>
   );
 }
