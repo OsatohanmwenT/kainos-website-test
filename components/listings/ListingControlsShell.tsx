@@ -23,14 +23,14 @@ export function ListingControlsShell({
 }: ListingControlsShellProps) {
   return (
     <div className={`flex w-full flex-col bg-white border-neutral-200 ${className}`}>
-      <div className="mx-auto flex w-full flex-col items-center justify-between gap-4 border-b border-neutral-200 px-6 py-4 md:flex-row lg:px-16">
+      <div className="mx-auto flex w-full flex-col items-center justify-between gap-4 border-b border-neutral-200 px-6 py-4 lg:flex-row lg:px-16">
         <ControlsSearchInput
           value={searchQuery}
           onValueChange={onSearchChange}
           placeholder={searchPlaceholder}
         />
 
-        <div className="flex w-full flex-wrap items-center gap-3 px-1 py-1 font-dm-sans md:w-auto">
+        <div className="flex w-full flex-wrap items-center gap-3 px-1 py-1 font-dm-sans lg:w-auto">
           {children}
         </div>
       </div>
