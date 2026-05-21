@@ -64,6 +64,7 @@ export interface PublicReport {
     frequency?: string | null;
     indicator?: string | null;
     file_name?: string | null;
+    label?: string | null;
     download_url?: string | null;
   } | null;
 }

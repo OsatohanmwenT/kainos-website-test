@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  PublicationDownloadButton,
-  PublicationPreviewFrame,
-} from "@/components/publications/PublicationFile";
+import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
 import { getReports } from "@/lib/api";
 import { Calendar, FileText, Lock, User } from "lucide-react";
 import Link from "next/link";
@@ -31,7 +28,11 @@ export default async function ReportDetailsPage({
         year: "numeric",
       }).format(new Date(report.publication_date))
     : "Not dated";
-  const canDownload = report.is_visible !== false && report.allow_download;
+  const fallbackDownloadUrl =
+    report.download_url ?? report.stored_items?.download_url ?? null;
+  const isRestricted = report.stored_items?.label === "restricted";
+  const canDownload =
+    report.is_visible !== false && report.allow_download && !isRestricted;
   const accessHref = `/contact?request=access&itemType=report&itemId=${encodeURIComponent(
     report.id
   )}&itemTitle=${encodeURIComponent(report.public_title)}#contact-form`;
@@ -83,6 +84,9 @@ export default async function ReportDetailsPage({
                 <PublicationDownloadButton
                   publicationId={report.id}
                   label="Download Report"
+                  fallbackDownloadUrl={fallbackDownloadUrl}
+                  fallbackFileName={report.stored_items?.file_name}
+                  requestAccessHref={accessHref}
                   className="h-12 rounded-2xl bg-primary-500 px-6 text-white hover:bg-primary-700"
                 />
               ) : (
@@ -138,17 +142,11 @@ export default async function ReportDetailsPage({
               <h2 className="text-lg font-bold text-text-header">View-only Preview</h2>
             </div>
             <p className="mt-5 leading-7 text-text-body">
-              {canDownload
-                ? "This preview is available for public-access research documents."
-                : "This research document is restricted. Request access through the contact form and the KainosEdge team will follow up."}
+              This page presents the public summary and metadata for the report
+              in a read-only format. Full report files are only available when
+              the backend provides a public download URL or access is granted by
+              the KainosEdge team.
             </p>
-            {canDownload && (
-              <PublicationPreviewFrame
-                publicationId={report.id}
-                title={`${report.public_title} preview`}
-                className="mt-6 h-120 w-full rounded-xl border border-neutral-200 bg-white"
-              />
-            )}
             {report.citation_format && (
               <div className="mt-6 rounded-lg bg-primary-50 p-4">
                 <p className="font-bold uppercase text-text-label">Citation</p>

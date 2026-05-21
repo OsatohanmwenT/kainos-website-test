@@ -1,10 +1,16 @@
-import { apiDataRequest } from "./client";
+import { apiRequest } from "./client";
 import { API_ENDPOINTS } from "./endpoints";
-import { PublicationDownload } from "./types";
+import { ApiResponse, PublicationDownload } from "./types";
 
-export function getPublicationDownload(id: string) {
-  return apiDataRequest<PublicationDownload>({
+export async function getPublicationDownload(id: string) {
+  const response = await apiRequest<ApiResponse<PublicationDownload>>({
     method: "GET",
     url: `${API_ENDPOINTS.publications}/${encodeURIComponent(id)}/download`,
   });
+
+  if (!response.success || !response.data?.download_url) {
+    throw new Error(response.message ?? "Unable to prepare download.");
+  }
+
+  return response.data;
 }

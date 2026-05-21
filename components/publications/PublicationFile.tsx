@@ -3,19 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { getPublicationDownload } from "@/lib/api";
 import { Download } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface PublicationDownloadButtonProps {
   publicationId: string;
   label: string;
   className?: string;
   containerClassName?: string;
-}
-
-interface PublicationPreviewFrameProps {
-  publicationId: string;
-  title: string;
-  className?: string;
+  fallbackDownloadUrl?: string | null;
+  fallbackFileName?: string | null;
+  requestAccessHref?: string;
 }
 
 export function PublicationDownloadButton({
@@ -23,6 +20,9 @@ export function PublicationDownloadButton({
   label,
   className,
   containerClassName,
+  fallbackDownloadUrl,
+  fallbackFileName,
+  requestAccessHref,
 }: PublicationDownloadButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -32,10 +32,23 @@ export function PublicationDownloadButton({
     setError(false);
 
     try {
-      const file = await getPublicationDownload(publicationId);
+      let fileName = fallbackFileName ?? "";
+      let downloadUrl = fallbackDownloadUrl ?? "";
+
+      try {
+        const file = await getPublicationDownload(publicationId);
+        downloadUrl = file.download_url;
+        fileName = file.file_name ?? fileName;
+      } catch (error) {
+        console.log(error);
+        if (!downloadUrl) {
+          throw new Error("Unable to prepare download.");
+        }
+      }
+
       const link = document.createElement("a");
-      link.href = file.download_url;
-      link.download = file.file_name ?? "";
+      link.href = downloadUrl;
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -58,61 +71,18 @@ export function PublicationDownloadButton({
         {loading ? "Preparing..." : label}
       </Button>
       {error && (
-        <p className="mt-2 text-center font-dm-sans text-xs text-semantic-error-500">
-          Unable to prepare download. Please try again.
-        </p>
+        <div className="mt-2 text-center font-dm-sans text-xs text-semantic-error-500">
+          <p>This file is unavailable for direct download right now.</p>
+          {requestAccessHref && (
+            <a
+              href={requestAccessHref}
+              className="mt-1 inline-flex font-bold text-primary-700 hover:text-primary-500"
+            >
+              Request access
+            </a>
+          )}
+        </div>
       )}
     </div>
   );
-}
-
-export function PublicationPreviewFrame({
-  publicationId,
-  title,
-  className = "h-96 w-full rounded-xl border border-neutral-200 bg-white",
-}: PublicationPreviewFrameProps) {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function loadPreview() {
-      try {
-        const file = await getPublicationDownload(publicationId);
-
-        if (mounted) {
-          setPreviewUrl(file.download_url);
-        }
-      } catch {
-        if (mounted) {
-          setError(true);
-        }
-      }
-    }
-
-    void loadPreview();
-
-    return () => {
-      mounted = false;
-    };
-  }, [publicationId]);
-
-  if (error) {
-    return (
-      <div className="flex min-h-64 items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-primary-50 p-6 text-center font-dm-sans text-sm text-text-body">
-        Unable to load the preview. Please try downloading the file.
-      </div>
-    );
-  }
-
-  if (!previewUrl) {
-    return (
-      <div className="flex min-h-64 items-center justify-center rounded-xl border border-neutral-200 bg-primary-50 p-6 font-dm-sans text-sm text-text-body">
-        Loading preview...
-      </div>
-    );
-  }
-
-  return <iframe title={title} src={previewUrl} className={className} />;
 }

@@ -127,7 +127,11 @@ function LandingReportCard({ report }: { report: PublicReport }) {
   const formattedDate = report.publication_date
     ? formatDate(report.publication_date)
     : null;
-  const canDownload = report.is_visible !== false && report.allow_download;
+  const fallbackDownloadUrl =
+    report.download_url ?? report.stored_items?.download_url ?? null;
+  const isRestricted = report.stored_items?.label === "restricted";
+  const canDownload =
+    report.is_visible !== false && report.allow_download && !isRestricted;
   const accessHref = `/contact?request=access&itemType=report&itemId=${encodeURIComponent(
     report.id
   )}&itemTitle=${encodeURIComponent(report.public_title)}#contact-form`;
@@ -164,6 +168,9 @@ function LandingReportCard({ report }: { report: PublicReport }) {
         <PublicationDownloadButton
           publicationId={report.id}
           label="Download Report"
+          fallbackDownloadUrl={fallbackDownloadUrl}
+          fallbackFileName={report.stored_items?.file_name}
+          requestAccessHref={accessHref}
           className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
         />
       ) : (
