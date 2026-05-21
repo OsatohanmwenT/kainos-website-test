@@ -24,7 +24,36 @@ export const metadata = {
   },
 };
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const query = await searchParams;
+  const request = Array.isArray(query?.request)
+    ? query.request[0]
+    : query?.request;
+  const itemType = Array.isArray(query?.itemType)
+    ? query.itemType[0]
+    : query?.itemType;
+  const itemId = Array.isArray(query?.itemId) ? query.itemId[0] : query?.itemId;
+  const itemTitle = Array.isArray(query?.itemTitle)
+    ? query.itemTitle[0]
+    : query?.itemTitle;
+  const isAccessRequest = request === "access";
+  const itemLabel =
+    itemType === "dataset" ? "dataset" : itemType === "report" ? "report" : "publication";
+  const initialValues = isAccessRequest
+    ? {
+        serviceName: itemType === "dataset" ? "data-solutions" : "research-reporting",
+        projectDescription: itemTitle
+          ? `I would like to request access to "${itemTitle}"${
+              itemId ? ` (${itemLabel} ID: ${itemId})` : ""
+            }.`
+          : "I would like to request access to a KainosEdge publication.",
+      }
+    : undefined;
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-primary-50">
       <PageHeader
@@ -199,13 +228,16 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column - Form */}
-          <div className="lg:col-span-8">
+          <div id="contact-form" className="scroll-mt-24 lg:col-span-8">
             <div className="rounded-[20px] border border-border-default bg-white p-6 shadow-sm md:p-10 lg:p-12">
               <h2 className="font-fraunces text-3xl md:text-[32px] font-semibold text-text-header mb-8">
-                Send Us a Message
+                {isAccessRequest ? "Request Access" : "Send Us a Message"}
               </h2>
 
-              <ContactForm />
+              <ContactForm
+                initialValues={initialValues}
+                submitMode={isAccessRequest ? "access-request" : "contact"}
+              />
             </div>
           </div>
         </div>

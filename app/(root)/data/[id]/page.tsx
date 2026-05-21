@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
+import {
+  PublicationDownloadButton,
+  PublicationPreviewFrame,
+} from "@/components/publications/PublicationFile";
 import { getDatasets } from "@/lib/api";
-import { Calendar, Database, Download, Lock } from "lucide-react";
+import { Calendar, Database, Lock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -24,12 +28,10 @@ export default async function DatasetDetailsPage({
         year: "numeric",
       }).format(new Date(dataset.publication_date))
     : "Not dated";
-  const downloadUrl = dataset.download_url ?? dataset.stored_items?.download_url ?? null;
-  const accessHref = `mailto:info@kainosedge.com?subject=${encodeURIComponent(
-    `Dataset access request: ${dataset.public_title}`
-  )}&body=${encodeURIComponent(
-    `Hello KainosEdge team,\n\nI would like to request access to "${dataset.public_title}".\n\nThank you.`
-  )}`;
+  const canDownload = dataset.is_visible !== false && dataset.allow_download;
+  const accessHref = `/contact?request=access&itemType=dataset&itemId=${encodeURIComponent(
+    dataset.id
+  )}&itemTitle=${encodeURIComponent(dataset.public_title)}#contact-form`;
 
   return (
     <div className="flex min-h-screen flex-col bg-primary-50">
@@ -42,11 +44,19 @@ export default async function DatasetDetailsPage({
             >
               Back to datasets
             </Link>
-            {dataset.stored_items?.data_type && (
-              <span className="mt-8 inline-flex rounded-full bg-admin-accent-50 px-3 py-1 font-dm-sans text-xs font-bold uppercase text-admin-accent-500">
-                {dataset.stored_items.data_type}
-              </span>
-            )}
+            <div className="mt-8 flex flex-wrap items-center gap-2">
+              {dataset.stored_items?.data_type && (
+                <span className="inline-flex rounded-full bg-admin-accent-50 px-3 py-1 font-dm-sans text-xs font-bold uppercase text-admin-accent-500">
+                  {dataset.stored_items.data_type}
+                </span>
+              )}
+              {!canDownload && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF4D6] px-3 py-1 font-dm-sans text-xs font-bold uppercase text-[#8A6500]">
+                  <Lock className="size-3" />
+                  Restricted Access
+                </span>
+              )}
+            </div>
             <h1 className="mt-4 font-fraunces text-4xl font-semibold leading-tight text-text-header md:text-5xl">
               {dataset.public_title}
             </h1>
@@ -60,7 +70,7 @@ export default async function DatasetDetailsPage({
                 <Calendar className="size-4" />
                 {formattedDate}
               </span>
-              {dataset.stored_items?.file_name && (
+              {canDownload && dataset.stored_items?.file_name && (
                 <span className="inline-flex items-center gap-2">
                   <Database className="size-4" />
                   {dataset.stored_items.file_name}
@@ -68,20 +78,12 @@ export default async function DatasetDetailsPage({
               )}
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              {dataset.allow_download && downloadUrl ? (
-                <Button asChild className="h-12 rounded-2xl bg-primary-500 px-6 text-white hover:bg-primary-700">
-                  <a href={downloadUrl} download>
-                    <Download className="mr-2 size-4" />
-                    Download Dataset
-                  </a>
-                </Button>
-              ) : dataset.allow_download ? (
-                <Button asChild className="h-12 rounded-2xl bg-[#D4A017] px-6 text-white hover:bg-[#b08513]">
-                  <a href={accessHref}>
-                    Request Access
-                    <Lock className="ml-2 size-4" />
-                  </a>
-                </Button>
+              {canDownload ? (
+                <PublicationDownloadButton
+                  publicationId={dataset.id}
+                  label="Download Dataset"
+                  className="h-12 rounded-2xl bg-primary-500 px-6 text-white hover:bg-primary-700"
+                />
               ) : (
                 <Button asChild className="h-12 rounded-2xl bg-[#D4A017] px-6 text-white hover:bg-[#b08513]">
                   <a href={accessHref}>
@@ -100,6 +102,12 @@ export default async function DatasetDetailsPage({
           <div className="rounded-xl border border-border-default bg-white p-6 font-dm-sans">
             <h2 className="text-lg font-bold text-text-header">Dataset Details</h2>
             <div className="mt-5 grid gap-4 text-sm">
+              {canDownload && dataset.stored_items?.file_name && (
+                <div>
+                  <p className="font-bold uppercase text-text-label">File</p>
+                  <p className="mt-1 text-text-body">{dataset.stored_items.file_name}</p>
+                </div>
+              )}
               {dataset.stored_items?.year && (
                 <div>
                   <p className="font-bold uppercase text-text-label">Year</p>
@@ -135,11 +143,18 @@ export default async function DatasetDetailsPage({
               <h2 className="text-lg font-bold text-text-header">View-only Preview</h2>
             </div>
             <p className="mt-5 leading-7 text-text-body">
-              This page recreates the public dashboard-style view for the
-              dataset. It shows the available metadata and access state without
-              exposing internal editing or review controls.
+              {canDownload
+                ? "This preview is available for public-access datasets."
+                : "This dataset is restricted. Request access through the contact form and the KainosEdge team will follow up."}
             </p>
-            {dataset.stored_items?.file_name && (
+            {canDownload && (
+              <PublicationPreviewFrame
+                publicationId={dataset.id}
+                title={`${dataset.public_title} preview`}
+                className="mt-6 h-120 w-full rounded-xl border border-neutral-200 bg-white"
+              />
+            )}
+            {canDownload && dataset.stored_items?.file_name && (
               <div className="mt-6 rounded-lg bg-primary-50 p-4">
                 <p className="font-bold uppercase text-text-label">Source File</p>
                 <p className="mt-2 text-sm leading-6 text-text-body">

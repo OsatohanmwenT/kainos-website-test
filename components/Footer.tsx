@@ -33,7 +33,7 @@ export function Footer() {
                   href="/reports"
                   className="hover:text-primary-600 transition-colors"
                 >
-                  Reports
+                  Research
                 </Link>
               </li>
               <li>

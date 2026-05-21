@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
+import {
+  PublicationDownloadButton,
+  PublicationPreviewFrame,
+} from "@/components/publications/PublicationFile";
 import { getReports } from "@/lib/api";
-import { Calendar, Download, FileText, Lock, User } from "lucide-react";
+import { Calendar, FileText, Lock, User } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -27,12 +31,10 @@ export default async function ReportDetailsPage({
         year: "numeric",
       }).format(new Date(report.publication_date))
     : "Not dated";
-  const downloadUrl = report.download_url ?? report.stored_items?.download_url ?? null;
-  const accessHref = `mailto:info@kainosedge.com?subject=${encodeURIComponent(
-    `Access request: ${report.public_title}`
-  )}&body=${encodeURIComponent(
-    `Hello KainosEdge team,\n\nI would like to request access to "${report.public_title}".\n\nThank you.`
-  )}`;
+  const canDownload = report.is_visible !== false && report.allow_download;
+  const accessHref = `/contact?request=access&itemType=report&itemId=${encodeURIComponent(
+    report.id
+  )}&itemTitle=${encodeURIComponent(report.public_title)}#contact-form`;
 
   return (
     <div className="flex min-h-screen flex-col bg-primary-50">
@@ -43,13 +45,21 @@ export default async function ReportDetailsPage({
               href="/reports"
               className="font-dm-sans text-sm font-bold text-primary-700 hover:text-primary-500"
             >
-              Back to reports
+              Back to research
             </Link>
-            {report.stored_items?.data_type && (
-              <span className="mt-8 inline-flex rounded-full bg-primary-100 px-3 py-1 font-dm-sans text-xs font-bold uppercase text-primary-700">
-                {report.stored_items.data_type}
-              </span>
-            )}
+            <div className="mt-8 flex flex-wrap items-center gap-2">
+              {report.stored_items?.data_type && (
+                <span className="inline-flex rounded-full bg-primary-100 px-3 py-1 font-dm-sans text-xs font-bold uppercase text-primary-700">
+                  {report.stored_items.data_type}
+                </span>
+              )}
+              {!canDownload && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF4D6] px-3 py-1 font-dm-sans text-xs font-bold uppercase text-[#8A6500]">
+                  <Lock className="size-3" />
+                  Restricted Access
+                </span>
+              )}
+            </div>
             <h1 className="mt-4 font-fraunces text-4xl font-semibold leading-tight text-text-header md:text-5xl">
               {report.public_title}
             </h1>
@@ -69,20 +79,12 @@ export default async function ReportDetailsPage({
               </span>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              {report.allow_download && downloadUrl ? (
-                <Button asChild className="h-12 rounded-2xl bg-primary-500 px-6 text-white hover:bg-primary-700">
-                  <a href={downloadUrl} download>
-                    <Download className="mr-2 size-4" />
-                    Download Report
-                  </a>
-                </Button>
-              ) : report.allow_download ? (
-                <Button asChild className="h-12 rounded-2xl bg-[#D4A017] px-6 text-white hover:bg-[#b08513]">
-                  <a href={accessHref}>
-                    Request Access
-                    <Lock className="ml-2 size-4" />
-                  </a>
-                </Button>
+              {canDownload ? (
+                <PublicationDownloadButton
+                  publicationId={report.id}
+                  label="Download Report"
+                  className="h-12 rounded-2xl bg-primary-500 px-6 text-white hover:bg-primary-700"
+                />
               ) : (
                 <Button asChild className="h-12 rounded-2xl bg-[#D4A017] px-6 text-white hover:bg-[#b08513]">
                   <a href={accessHref}>
@@ -101,7 +103,7 @@ export default async function ReportDetailsPage({
           <div className="rounded-xl border border-border-default bg-white p-6 font-dm-sans">
             <h2 className="text-lg font-bold text-text-header">Report Details</h2>
             <div className="mt-5 grid gap-4 text-sm">
-              {report.stored_items?.file_name && (
+              {canDownload && report.stored_items?.file_name && (
                 <div>
                   <p className="font-bold uppercase text-text-label">File</p>
                   <p className="mt-1 text-text-body">{report.stored_items.file_name}</p>
@@ -136,11 +138,17 @@ export default async function ReportDetailsPage({
               <h2 className="text-lg font-bold text-text-header">View-only Preview</h2>
             </div>
             <p className="mt-5 leading-7 text-text-body">
-              This page presents the public summary and metadata for the report
-              in a read-only format. Full report files are only available when
-              the backend provides a public download URL or access is granted by
-              the KainosEdge team.
+              {canDownload
+                ? "This preview is available for public-access research documents."
+                : "This research document is restricted. Request access through the contact form and the KainosEdge team will follow up."}
             </p>
+            {canDownload && (
+              <PublicationPreviewFrame
+                publicationId={report.id}
+                title={`${report.public_title} preview`}
+                className="mt-6 h-120 w-full rounded-xl border border-neutral-200 bg-white"
+              />
+            )}
             {report.citation_format && (
               <div className="mt-6 rounded-lg bg-primary-50 p-4">
                 <p className="font-bold uppercase text-text-label">Citation</p>

@@ -1,4 +1,5 @@
 import { ArrowMoveIcon, SendIcon } from "@/components/icons";
+import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
 import { PartnerLogos } from "@/components/shared/PartnerLogos";
 import { StatsBand } from "@/components/shared/StatsBand";
 import { FadeIn } from "@/components/FadeIn";
@@ -7,7 +8,7 @@ import type {
     PublicDataset,
     PublicReport,
 } from "@/lib/api/types";
-import { ArrowUpRight, Database, Download, SquareKanban } from "lucide-react";
+import { ArrowUpRight, Database, SquareKanban } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -126,20 +127,25 @@ function LandingReportCard({ report }: { report: PublicReport }) {
   const formattedDate = report.publication_date
     ? formatDate(report.publication_date)
     : null;
-  const downloadUrl = report.download_url ?? report.stored_items?.download_url ?? null;
-  const accessHref = `mailto:info@kainosedge.com?subject=${encodeURIComponent(
-    `Access request: ${report.public_title}`
-  )}&body=${encodeURIComponent(
-    `Hello KainosEdge team,\n\nI would like to request access to "${report.public_title}".\n\nThank you.`
-  )}`;
+  const canDownload = report.is_visible !== false && report.allow_download;
+  const accessHref = `/contact?request=access&itemType=report&itemId=${encodeURIComponent(
+    report.id
+  )}&itemTitle=${encodeURIComponent(report.public_title)}#contact-form`;
 
   return (
     <article className="flex h-full flex-col rounded-xl border border-border-default bg-primary-50 p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1">
-      {dataType && (
-        <span className="w-fit rounded-full bg-primary-100 px-3 py-1 font-dm-sans text-xs font-bold text-primary-700">
-          {dataType}
-        </span>
-      )}
+      <div className="flex flex-wrap gap-2">
+        {dataType && (
+          <span className="w-fit rounded-full bg-primary-100 px-3 py-1 font-dm-sans text-xs font-bold text-primary-700">
+            {dataType}
+          </span>
+        )}
+        {!canDownload && (
+          <span className="w-fit rounded-full bg-[#FFF4D6] px-3 py-1 font-dm-sans text-xs font-bold text-[#8A6500]">
+            Restricted Access
+          </span>
+        )}
+      </div>
       <h3 className="mt-4 font-dm-sans text-lg font-bold text-text-header">
         {report.public_title}
       </h3>
@@ -153,27 +159,13 @@ function LandingReportCard({ report }: { report: PublicReport }) {
           {authors && <p className="font-bold text-text-header">{authors}</p>}
           {formattedDate && <p>{formattedDate}</p>}
         </div>
-        {report.allow_download && (
-          <span className="inline-flex items-center gap-1">
-            <Download className="size-4" />
-          </span>
-        )}
       </div>
-      {report.allow_download && downloadUrl ? (
-        <a
-          href={downloadUrl}
-          download
+      {canDownload ? (
+        <PublicationDownloadButton
+          publicationId={report.id}
+          label="Download Report"
           className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
-        >
-          Download Report
-        </a>
-      ) : report.allow_download ? (
-        <Link
-          href={`/reports/${report.id}`}
-          className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
-        >
-          View Details
-        </Link>
+        />
       ) : (
         <a
           href={accessHref}
