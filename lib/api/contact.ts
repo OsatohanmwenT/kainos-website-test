@@ -19,3 +19,11 @@ export function submitContact(payload: ConsultationFormRequest) {
     data: toBackendContactPayload(payload),
   });
 }
+
+export function submitAccessRequest(payload: ConsultationFormRequest) {
+  return apiDataRequest<ConsultationResponse>({
+    method: "POST",
+    url: API_ENDPOINTS.consultancyRequests,
+    data: toBackendContactPayload(payload),
+  });
+}

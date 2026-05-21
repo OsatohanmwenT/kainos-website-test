@@ -1,6 +1,6 @@
 "use client";
 
-import { sendEmail } from "@/lib/emailjs";
+import { submitConsultation } from "@/lib/api";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,10 +122,7 @@ export function ConsultationForm() {
     setApiError(null);
 
     try {
-      await sendEmail({
-        payload: formData,
-        templateId: process.env.NEXT_PUBLIC_EMAILJS_CONSULTATION_TEMPLATE_ID,
-      });
+      await submitConsultation(formData);
       setSubmitted(true);
       setErrors({});
       setFormData({

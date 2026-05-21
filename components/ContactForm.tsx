@@ -1,6 +1,6 @@
 "use client";
 
-import { sendEmail } from "@/lib/emailjs";
+import { submitAccessRequest, submitContact } from "@/lib/api";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +28,11 @@ interface FormErrors {
   projectDescription?: string;
 }
 
+interface ContactFormProps {
+  initialValues?: Partial<FormData>;
+  submitMode?: "contact" | "access-request";
+}
+
 const inputClass = (error?: string) =>
   `w-full px-4 py-3 h-12 border rounded bg-neutral-100 font-dm-sans text-[15px] placeholder:text-neutral-500 focus:outline-none focus:ring-1 transition-colors ${
     error
@@ -35,13 +40,16 @@ const inputClass = (error?: string) =>
       : "border-neutral-300 focus:ring-primary-700"
   }`;
 
-export function ContactForm() {
+export function ContactForm({
+  initialValues,
+  submitMode = "contact",
+}: ContactFormProps) {
   const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    email: "",
-    organizationName: "",
-    serviceName: "",
-    projectDescription: "",
+    fullName: initialValues?.fullName ?? "",
+    email: initialValues?.email ?? "",
+    organizationName: initialValues?.organizationName ?? "",
+    serviceName: initialValues?.serviceName ?? "",
+    projectDescription: initialValues?.projectDescription ?? "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -109,10 +117,10 @@ export function ContactForm() {
     setApiError(null);
 
     try {
-      await sendEmail({
-        payload: formData,
-        templateId: process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID,
-      });
+      const submit =
+        submitMode === "access-request" ? submitAccessRequest : submitContact;
+
+      await submit(formData);
       setSubmitted(true);
       setFormData({
         fullName: "",
@@ -148,11 +156,12 @@ export function ContactForm() {
           </svg>
         </div>
         <h3 className="font-fraunces text-2xl font-semibold text-text-header">
-          Message Sent!
+          {submitMode === "access-request" ? "Request Sent!" : "Message Sent!"}
         </h3>
         <p className="font-dm-sans text-[15px] text-text-body max-w-sm">
-          Thank you for reaching out. We&apos;ll get back to you within 24
-          business hours.
+          {submitMode === "access-request"
+            ? "Thank you for your request. We'll get back to you within 24 business hours."
+            : "Thank you for reaching out. We'll get back to you within 24 business hours."}
         </p>
         <button
           onClick={() => setSubmitted(false)}
@@ -305,7 +314,11 @@ export function ContactForm() {
         disabled={isSubmitting}
         className="w-full h-auto mt-2 px-6 py-4 bg-primary-500 text-white font-dm-sans font-bold text-[15px] rounded-3xl hover:bg-primary-700 transition-colors disabled:opacity-60"
       >
-        {isSubmitting ? "Submitting..." : "Submit Requirements"}
+        {isSubmitting
+          ? "Submitting..."
+          : submitMode === "access-request"
+            ? "Submit Access Request"
+            : "Submit Requirements"}
       </Button>
     </form>
   );

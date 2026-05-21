@@ -6,7 +6,6 @@ import { ArticleCard, FeaturedArticleCard } from "./ArticleCard";
 import { BlogControls } from "./BlogControls";
 import { EmptyState } from "./EmptyState";
 import { ListingPagination } from "./ListingPagination";
-import { ReviewStats } from "./StatsSummaryRow";
 
 interface BlogListingProps {
   articles: PublicArticle[];
@@ -17,27 +16,15 @@ const ITEMS_PER_PAGE = 12; // 3 columns * 4 rows
 export function BlogListing({ articles }: BlogListingProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedStatus, setSelectedStatus] = useState("all"); // Might not need status for public blog, but adding to match controls
   const [sortOrder, setSortOrder] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
 
   const isFiltering =
     searchQuery !== "" ||
-    selectedCategory !== "all" ||
-    selectedStatus !== "all";
+    selectedCategory !== "all";
 
   const featuredArticle = useMemo(
     () => articles.find((article) => article.featured),
-    [articles],
-  );
-
-  const stats: ReviewStats = useMemo(
-    () => ({
-      pending: 0,
-      resubmitted: 0,
-      overdue: 0,
-      reviewedToday: articles.length,
-    }),
     [articles],
   );
 
@@ -93,11 +80,8 @@ export function BlogListing({ articles }: BlogListingProps) {
         setSearchQuery={setSearchQuery}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
-        stats={stats}
       />
 
       <div className="mx-auto flex w-full flex-col gap-12 bg-primary-50 px-6 py-8 lg:px-16">
@@ -129,7 +113,6 @@ export function BlogListing({ articles }: BlogListingProps) {
               onClick: () => {
                 setSearchQuery("");
                 setSelectedCategory("all");
-                setSelectedStatus("all");
                 setSortOrder("newest");
                 setCurrentPage(1);
               },

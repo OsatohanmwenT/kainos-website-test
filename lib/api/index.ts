@@ -4,5 +4,6 @@ export * from "./contact";
 export * from "./consultations";
 export * from "./datasets";
 export * from "./endpoints";
+export * from "./publications";
 export * from "./reports";
 export * from "./types";
