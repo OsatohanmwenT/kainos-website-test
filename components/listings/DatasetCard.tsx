@@ -1,10 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
+import {
+  PublicationDownloadButton,
+  PublicationInlinePreview,
+} from "@/components/publications/PublicationFile";
 import { PublicDataset } from "@/lib/api/types";
 import { Lock } from "lucide-react";
-import Link from "next/link";
+import { useState } from "react";
 
 export function DatasetCard({ dataset }: { dataset: PublicDataset }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+
   const dataType = dataset.stored_items?.data_type ?? null;
   const year = dataset.stored_items?.year?.toString() ?? null;
   const frequency = dataset.stored_items?.frequency ?? null;
@@ -121,13 +128,30 @@ export function DatasetCard({ dataset }: { dataset: PublicDataset }) {
           </Button>
         )}
         <Button
-          asChild
+          type="button"
           variant="outline"
+          onClick={() => setDetailsOpen((open) => !open)}
+          aria-expanded={detailsOpen}
           className="w-full sm:w-auto h-13 px-6 cursor-pointer rounded-2xl border-primary-500 text-primary-500! hover:bg-primary-50"
         >
-          <Link href={`/data/${dataset.id}`}>View Details</Link>
+          {detailsOpen ? "Hide Details" : "View Details"}
         </Button>
       </div>
+
+      <PublicationInlinePreview
+        open={detailsOpen}
+        publicationId={dataset.id}
+        title={dataset.public_title}
+        canPreview={canDownload}
+        requestAccessHref={accessHref}
+        fileName={dataset.stored_items?.file_name}
+        details={[
+          { label: "Year", value: year },
+          { label: "Frequency", value: frequency },
+          { label: "Indicator", value: indicator },
+          { label: "Label", value: label },
+        ]}
+      />
     </div>
   );
 }

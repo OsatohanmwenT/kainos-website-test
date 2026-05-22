@@ -2,7 +2,7 @@
 
 import { getReports } from "@/lib/api";
 import { PublicReport } from "@/lib/api/types";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EmptyState } from "./EmptyState";
 import { ListingPagination } from "./ListingPagination";
 import { ReportCard } from "./ReportCard";
@@ -21,8 +21,14 @@ export function ReportsListing() {
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
   const [currentPage, setCurrentPage] = useState(1);
+  const requestInFlight = useRef(false);
 
   const fetchReports = useCallback(async () => {
+    if (requestInFlight.current) {
+      return;
+    }
+
+    requestInFlight.current = true;
     setLoading(true);
     setError(null);
     try {
@@ -31,6 +37,7 @@ export function ReportsListing() {
     } catch {
       setError("Failed to load reports. Please try again.");
     } finally {
+      requestInFlight.current = false;
       setLoading(false);
     }
   }, []);

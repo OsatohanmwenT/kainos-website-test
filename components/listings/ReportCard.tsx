@@ -1,10 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
+import {
+  PublicationDownloadButton,
+  PublicationInlinePreview,
+} from "@/components/publications/PublicationFile";
 import { PublicReport } from "@/lib/api/types";
 import { Calendar, Lock, User } from "lucide-react";
-import Link from "next/link";
+import { useState } from "react";
 
 export function ReportCard({ report }: { report: PublicReport }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+
   const authors = Array.isArray(report.authors)
     ? report.authors.join(", ")
     : (report.authors ?? "Unknown Author");
@@ -86,14 +93,30 @@ export function ReportCard({ report }: { report: PublicReport }) {
             </Button>
           )}
           <Button
-            asChild
+            type="button"
             variant="outline"
+            onClick={() => setDetailsOpen((open) => !open)}
+            aria-expanded={detailsOpen}
             className="w-full h-13 px-6 cursor-pointer rounded-2xl border-primary-500 text-primary-500! hover:bg-primary-50"
           >
-            <Link href={`/reports/${report.id}`}>View Details</Link>
+            {detailsOpen ? "Hide Details" : "View Details"}
           </Button>
         </div>
       </div>
+
+      <PublicationInlinePreview
+        open={detailsOpen}
+        publicationId={report.id}
+        title={report.public_title}
+        canPreview={canDownload}
+        requestAccessHref={accessHref}
+        fileName={report.stored_items?.file_name}
+        details={[
+          { label: "Year", value: report.stored_items?.year },
+          { label: "Frequency", value: report.stored_items?.frequency },
+          { label: "Indicator", value: report.stored_items?.indicator },
+        ]}
+      />
     </div>
   );
 }

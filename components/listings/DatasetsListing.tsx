@@ -2,7 +2,7 @@
 
 import { getDatasets } from "@/lib/api";
 import { PublicDataset } from "@/lib/api/types";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DatasetCard } from "./DatasetCard";
 import { DatasetsControls } from "./DatasetsControls";
 import { EmptyState } from "./EmptyState";
@@ -21,8 +21,14 @@ export function DatasetsListing() {
   const [selectedIndicator, setSelectedIndicator] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const requestInFlight = useRef(false);
 
   const fetchDatasets = useCallback(async () => {
+    if (requestInFlight.current) {
+      return;
+    }
+
+    requestInFlight.current = true;
     setLoading(true);
     setError(null);
     try {
@@ -31,6 +37,7 @@ export function DatasetsListing() {
     } catch {
       setError("Failed to load datasets. Please try again.");
     } finally {
+      requestInFlight.current = false;
       setLoading(false);
     }
   }, []);

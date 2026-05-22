@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { getPublicationDownload } from "@/lib/api";
-import { Download } from "lucide-react";
-import { useState } from "react";
+import { Download, FileText, Lock } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface PublicationDownloadButtonProps {
   publicationId: string;
@@ -13,6 +13,19 @@ interface PublicationDownloadButtonProps {
   fallbackDownloadUrl?: string | null;
   fallbackFileName?: string | null;
   requestAccessHref?: string;
+}
+
+interface PublicationPreviewProps {
+  open: boolean;
+  publicationId: string;
+  title: string;
+  canPreview: boolean;
+  requestAccessHref?: string;
+  fileName?: string | null;
+  details?: Array<{
+    label: string;
+    value?: string | number | null;
+  }>;
 }
 
 export function PublicationDownloadButton({
@@ -39,8 +52,7 @@ export function PublicationDownloadButton({
         const file = await getPublicationDownload(publicationId);
         downloadUrl = file.download_url;
         fileName = file.file_name ?? fileName;
-      } catch (error) {
-        console.log(error);
+      } catch {
         if (!downloadUrl) {
           throw new Error("Unable to prepare download.");
         }
@@ -83,6 +95,143 @@ export function PublicationDownloadButton({
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+export function PublicationInlinePreview({
+  open,
+  publicationId,
+  title,
+  canPreview,
+  requestAccessHref,
+  fileName,
+  details = [],
+}: PublicationPreviewProps) {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!open || !canPreview || previewUrl || loading) {
+      return;
+    }
+
+    let mounted = true;
+
+    async function loadPreview() {
+      setLoading(true);
+      setError(false);
+
+      try {
+        const file = await getPublicationDownload(publicationId);
+
+        if (mounted) {
+          setPreviewUrl(file.download_url);
+        }
+      } catch {
+        if (mounted) {
+          setError(true);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadPreview();
+
+    return () => {
+      mounted = false;
+    };
+  }, [canPreview, loading, open, previewUrl, publicationId]);
+
+  if (!open) {
+    return null;
+  }
+
+  const visibleDetails = details.filter((item) => item.value);
+
+  return (
+    <div className="border-t border-neutral-100 pt-6">
+      <div className="grid gap-6 lg:grid-cols-[0.65fr_1fr]">
+        <div className="font-dm-sans">
+          <h4 className="text-lg font-bold text-text-header">Document Details</h4>
+          <div className="mt-4 grid gap-4 text-sm">
+            {fileName && canPreview && (
+              <div>
+                <p className="font-bold uppercase text-text-label">File</p>
+                <p className="mt-1 break-words text-text-body">{fileName}</p>
+              </div>
+            )}
+            {visibleDetails.map((item) => (
+              <div key={item.label}>
+                <p className="font-bold uppercase text-text-label">{item.label}</p>
+                <p className="mt-1 text-text-body">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="font-dm-sans">
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-full bg-primary-100 text-primary-700">
+              <FileText className="size-5" />
+            </div>
+            <h4 className="text-lg font-bold text-text-header">
+              View-only Preview
+            </h4>
+          </div>
+
+          {!canPreview ? (
+            <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-primary-50 p-6 text-center">
+              <Lock className="size-8 text-[#8A6500]" />
+              <p className="mt-3 font-bold text-text-header">Restricted Access</p>
+              <p className="mt-2 max-w-md text-sm leading-6 text-text-body">
+                This document is restricted. Request access and the KainosEdge
+                team will follow up.
+              </p>
+              {requestAccessHref && (
+                <a
+                  href={requestAccessHref}
+                  className="mt-4 inline-flex h-10 items-center justify-center rounded-2xl bg-[#D4A017] px-5 text-sm font-bold text-white hover:bg-[#b08513]"
+                >
+                  Request Access
+                </a>
+              )}
+            </div>
+          ) : error ? (
+            <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-primary-50 p-6 text-center">
+              <FileText className="size-8 text-primary-700" />
+              <p className="mt-3 font-bold text-text-header">
+                Preview unavailable
+              </p>
+              <p className="mt-2 max-w-md text-sm leading-6 text-text-body">
+                The file is unavailable for inline preview right now.
+              </p>
+              {requestAccessHref && (
+                <a
+                  href={requestAccessHref}
+                  className="mt-4 font-bold text-primary-700 hover:text-primary-500"
+                >
+                  Request access
+                </a>
+              )}
+            </div>
+          ) : loading || !previewUrl ? (
+            <div className="flex min-h-64 items-center justify-center rounded-xl border border-neutral-200 bg-primary-50 p-6 text-sm text-text-body">
+              Loading preview...
+            </div>
+          ) : (
+            <iframe
+              title={`${title} preview`}
+              src={previewUrl}
+              className="h-96 w-full rounded-xl border border-neutral-200 bg-white"
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
