@@ -54,8 +54,8 @@ export function FadeIn({
   className = "",
   animation = "fade-up",
   delay = 0,
-  duration = 800,
-  threshold = 0.12,
+  duration = 500,
+  threshold = 0.10,
 }: FadeInProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);

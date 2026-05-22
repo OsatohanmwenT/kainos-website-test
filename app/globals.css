@@ -245,12 +245,12 @@
 }
 
 /* Animation utility classes */
-.animate-fade-up     { animation: fade-up        0.85s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-flip-up     { animation: flip-up         0.9s  cubic-bezier(0.22,1,0.36,1) both; }
-.animate-word-up     { animation: word-up         0.7s  cubic-bezier(0.22,1,0.36,1) both; }
-.animate-fade-in     { animation: fade-in         0.75s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-scale-in    { animation: scale-in        0.75s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-slide-right { animation: slide-in-right  0.75s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-fade-up     { animation: fade-up        0.55s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-flip-up     { animation: flip-up         0.6s  cubic-bezier(0.22,1,0.36,1) both; }
+.animate-word-up     { animation: word-up         0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-fade-in     { animation: fade-in         0.5s  cubic-bezier(0.22,1,0.36,1) both; }
+.animate-scale-in    { animation: scale-in        0.5s  cubic-bezier(0.22,1,0.36,1) both; }
+.animate-slide-right { animation: slide-in-right  0.5s  cubic-bezier(0.22,1,0.36,1) both; }
 .animate-partner-marquee { animation: partner-marquee 24s linear infinite; }
 
 /* Premium DwelX-inspired Animation utilities */

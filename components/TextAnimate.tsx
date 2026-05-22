@@ -15,9 +15,9 @@ interface TextAnimateProps {
 export function TextAnimate({
   children,
   className = "",
-  stagger = 50,
+  stagger = 35,
   delay = 0,
-  threshold = 0.12,
+  threshold = 0.10,
 }: TextAnimateProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const [visible, setVisible] = useState(false);

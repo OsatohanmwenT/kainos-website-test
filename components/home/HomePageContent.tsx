@@ -57,8 +57,8 @@ function HeroDashboard() {
     <>
       <FadeIn
         animation="slide-right"
-        delay={400}
-        duration={800}
+        delay={250}
+        duration={500}
         className="absolute left-0 top-0 z-10 hidden w-36 overflow-hidden rounded-sm bg-white shadow-sm md:block lg:left-6 lg:w-44"
       >
         <Image
@@ -74,8 +74,8 @@ function HeroDashboard() {
 
       <FadeIn
         animation="slide-left"
-        delay={550}
-        duration={800}
+        delay={350}
+        duration={500}
         className="absolute right-0 top-36 z-10 hidden w-40 overflow-hidden rounded-sm bg-white shadow-sm md:block lg:right-6 lg:w-48"
       >
         <Image
@@ -91,8 +91,8 @@ function HeroDashboard() {
 
       <FadeIn
         animation="fade-up"
-        delay={200}
-        duration={900}
+        delay={100}
+        duration={600}
         className="relative mx-auto w-full max-w-150"
       >
         <Image
@@ -300,7 +300,7 @@ export function HomePageContent({
               Data-Driven Insights for Institutional Decision-Making
             </TextAnimate>
           </h1>
-          <FadeIn animation="fade-up" delay={200}>
+          <FadeIn animation="fade-up" delay={100}>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/consultancy#consultation-form"
@@ -342,7 +342,7 @@ export function HomePageContent({
               <FadeIn
                 key={service.title}
                 animation="fade-up"
-                delay={index * 100}
+                delay={index * 60}
               >
                 <article className="h-full rounded-xl border border-border-default bg-white p-8 shadow-sm transition-premium duration-500 hover:-translate-y-1.5 hover:shadow-md hover:border-primary-300/40">
                   <div
@@ -377,7 +377,7 @@ export function HomePageContent({
         </FadeIn>
         <div className="grid gap-8 md:grid-cols-3">
           {featuredReports.map((report, index) => (
-            <FadeIn key={report.id} delay={index * 160}>
+            <FadeIn key={report.id} delay={index * 80}>
               <LandingReportCard report={report} />
             </FadeIn>
           ))}
@@ -394,7 +394,7 @@ export function HomePageContent({
         </FadeIn>
         <div className="grid gap-8 md:grid-cols-3">
           {featuredDatasets.map((dataset, index) => (
-            <FadeIn key={dataset.id} delay={index * 160}>
+            <FadeIn key={dataset.id} delay={index * 80}>
               <LandingDatasetCard dataset={dataset} />
             </FadeIn>
           ))}
@@ -411,7 +411,7 @@ export function HomePageContent({
         </FadeIn>
         <div className="grid gap-8 md:grid-cols-3">
           {latestArticles.map((article, index) => (
-            <FadeIn key={article.id} delay={index * 160}>
+            <FadeIn key={article.id} delay={index * 80}>
               <LandingArticleCard article={article} />
             </FadeIn>
           ))}
@@ -424,7 +424,7 @@ export function HomePageContent({
             Our Partners
           </h2>
         </FadeIn>
-        <FadeIn delay={200}>
+        <FadeIn delay={100}>
           <PartnerLogos />
         </FadeIn>
       </section>
