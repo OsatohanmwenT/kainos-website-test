@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wc -l components/listings/*.tsx)"
+      "Bash(wc -l components/listings/*.tsx)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\OSATO OSARENKHOE\\\\work\\\\KainosEdgeWebsite\" -Recurse -Include \"*.css\", \"*.scss\", \"*.json\" -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -First 30)",
+      "WebFetch(domain:dwelx.co)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" https://dwelx.co/)",
+      "WebFetch(domain:magicui.design)",
+      "WebFetch(domain:v3.magicui.design)",
+      "Bash(find /tmp/magicui -name \"*text-animate*\" -type f 2>/dev/null)",
+      "Read(//tmp/**)"
     ]
   }
 }

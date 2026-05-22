@@ -1,8 +1,10 @@
 import { ArrowMoveIcon, SendIcon } from "@/components/icons";
 import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
 import { PartnerLogos } from "@/components/shared/PartnerLogos";
+import { ScrollProgress } from "@/components/shared/ScrollProgress";
 import { StatsBand } from "@/components/shared/StatsBand";
 import { FadeIn } from "@/components/FadeIn";
+import { TextAnimate } from "@/components/TextAnimate";
 import type {
     PublicArticle,
     PublicDataset,
@@ -53,7 +55,12 @@ function formatDate(date: string) {
 function HeroDashboard() {
   return (
     <>
-      <div className="absolute left-0 top-0 z-10 hidden w-36 overflow-hidden rounded-sm bg-white shadow-sm md:block lg:left-6 lg:w-44">
+      <FadeIn
+        animation="slide-right"
+        delay={400}
+        duration={800}
+        className="absolute left-0 top-0 z-10 hidden w-36 overflow-hidden rounded-sm bg-white shadow-sm md:block lg:left-6 lg:w-44"
+      >
         <Image
           src="/landing/report.png"
           alt="Quarterly analysis report preview"
@@ -63,9 +70,14 @@ function HeroDashboard() {
           className="h-auto w-full"
           style={{ height: "auto" }}
         />
-      </div>
+      </FadeIn>
 
-      <div className="absolute right-0 top-36 z-10 hidden w-40 overflow-hidden rounded-sm bg-white shadow-sm md:block lg:right-6 lg:w-48">
+      <FadeIn
+        animation="slide-left"
+        delay={550}
+        duration={800}
+        className="absolute right-0 top-36 z-10 hidden w-40 overflow-hidden rounded-sm bg-white shadow-sm md:block lg:right-6 lg:w-48"
+      >
         <Image
           src="/landing/real-time.png"
           alt="Real-time market index preview"
@@ -75,9 +87,14 @@ function HeroDashboard() {
           className="h-auto w-full"
           style={{ height: "auto" }}
         />
-      </div>
+      </FadeIn>
 
-      <div className="relative mx-auto w-full max-w-150">
+      <FadeIn
+        animation="fade-up"
+        delay={200}
+        duration={900}
+        className="relative mx-auto w-full max-w-150"
+      >
         <Image
           src="/landing/dashboard-preview.png"
           alt="KIDMP dashboard preview"
@@ -86,8 +103,9 @@ function HeroDashboard() {
           priority
           sizes="(min-width: 1024px) 600px, 94vw"
           className="h-auto w-full drop-shadow-2xl"
+          style={{ height: "auto" }}
         />
-      </div>
+      </FadeIn>
     </>
   );
 }
@@ -137,7 +155,7 @@ function LandingReportCard({ report }: { report: PublicReport }) {
   )}&itemTitle=${encodeURIComponent(report.public_title)}#contact-form`;
 
   return (
-    <article className="flex h-full flex-col rounded-xl border border-border-default bg-primary-50 p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1">
+    <article className="flex h-full flex-col rounded-xl border border-border-default bg-primary-50 p-6 shadow-sm transition-premium duration-500 hover:-translate-y-1.5 hover:shadow-md hover:border-primary-300/60">
       <div className="flex flex-wrap gap-2">
         {dataType && (
           <span className="w-fit rounded-full bg-primary-100 px-3 py-1 font-dm-sans text-xs font-bold text-primary-700">
@@ -191,7 +209,7 @@ function LandingDatasetCard({ dataset }: { dataset: PublicDataset }) {
   const frequency = dataset.stored_items?.frequency ?? null;
 
   return (
-    <article className="flex h-full flex-col rounded-xl border border-border-default bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1">
+    <article className="flex h-full flex-col rounded-xl border border-border-default bg-white p-6 shadow-sm transition-premium duration-500 hover:-translate-y-1.5 hover:shadow-md hover:border-admin-accent-500/30">
       {dataType && (
         <span className="w-fit rounded-full bg-admin-accent-50 px-3 py-1 font-dm-sans text-xs font-bold text-admin-accent-500">
           {dataType}
@@ -239,7 +257,7 @@ function LandingArticleCard({ article }: { article: PublicArticle }) {
   return (
     <article className="group flex min-w-0 flex-col">
       <div
-        className="aspect-16/10 rounded-xl bg-neutral-100 bg-cover bg-center transition-transform duration-300 group-hover:-translate-y-1"
+        className="aspect-16/10 rounded-xl bg-neutral-100 bg-cover bg-center transition-premium duration-500 group-hover:-translate-y-1.5 group-hover:shadow-md"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
       {(article.category || article.read_time) && (
@@ -270,17 +288,18 @@ export function HomePageContent({
 }: HomePageContentProps) {
   return (
     <div className="flex min-h-screen flex-col bg-primary-50">
+      <ScrollProgress />
       <section className="relative overflow-visible bg-[#FFFBF4] px-6 pb-0 pt-14 lg:px-16 lg:pt-20">
         <div className="absolute inset-0 bg-[linear-gradient(180deg,#FFFBF4_0%,#FFFBF4_24%,#FFF8ED_44%,#FDEBC8_74%,#FAD28A_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-[72%] bg-[radial-gradient(ellipse_78%_95%_at_50%_100%,rgba(250,210,138,0.68)_0%,rgba(253,235,200,0.46)_44%,rgba(255,248,237,0)_78%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(250,210,138,0.42)_1px,transparent_1px),linear-gradient(to_bottom,rgba(250,210,138,0.42)_1px,transparent_1px)] bg-size-[72px_72px] bg-position-[72px_72px] opacity-80" />
 
         <div className="relative mx-auto max-w-5xl text-center">
-          <FadeIn animation="fade-up">
-            <h1 className="mx-auto max-w-5xl font-fraunces text-4xl font-bold leading-tight text-text-header md:text-6xl">
+          <h1 className="mx-auto max-w-5xl font-fraunces text-4xl font-bold leading-tight text-text-header md:text-6xl">
+            <TextAnimate stagger={50}>
               Data-Driven Insights for Institutional Decision-Making
-            </h1>
-          </FadeIn>
+            </TextAnimate>
+          </h1>
           <FadeIn animation="fade-up" delay={200}>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
@@ -299,13 +318,9 @@ export function HomePageContent({
           </FadeIn>
         </div>
 
-        <FadeIn
-          animation="fade-up"
-          delay={400}
-          className="relative z-20 mx-auto mt-14 -mb-24 w-full max-w-6xl overflow-visible px-0 md:-mb-32 md:px-12"
-        >
+        <div className="relative z-20 mx-auto mt-14 -mb-24 w-full max-w-6xl overflow-visible px-0 md:-mb-32 md:px-12">
           <HeroDashboard />
-        </FadeIn>
+        </div>
       </section>
 
       <section className="relative z-10 w-full bg-primary-50 px-6 pb-16 pt-32 md:pt-40 lg:px-16 lg:pb-20">
@@ -327,9 +342,9 @@ export function HomePageContent({
               <FadeIn
                 key={service.title}
                 animation="fade-up"
-                delay={index * 150}
+                delay={index * 100}
               >
-                <article className="h-full rounded-xl border border-border-default bg-white p-8 shadow-sm transition-transform duration-200 hover:-translate-y-1">
+                <article className="h-full rounded-xl border border-border-default bg-white p-8 shadow-sm transition-premium duration-500 hover:-translate-y-1.5 hover:shadow-md hover:border-primary-300/40">
                   <div
                     className={`flex size-10 items-center justify-center rounded-full ${service.tone}`}
                   >
@@ -362,7 +377,7 @@ export function HomePageContent({
         </FadeIn>
         <div className="grid gap-8 md:grid-cols-3">
           {featuredReports.map((report, index) => (
-            <FadeIn key={report.id} delay={index * 100}>
+            <FadeIn key={report.id} delay={index * 160}>
               <LandingReportCard report={report} />
             </FadeIn>
           ))}
@@ -379,7 +394,7 @@ export function HomePageContent({
         </FadeIn>
         <div className="grid gap-8 md:grid-cols-3">
           {featuredDatasets.map((dataset, index) => (
-            <FadeIn key={dataset.id} delay={index * 100}>
+            <FadeIn key={dataset.id} delay={index * 160}>
               <LandingDatasetCard dataset={dataset} />
             </FadeIn>
           ))}
@@ -396,7 +411,7 @@ export function HomePageContent({
         </FadeIn>
         <div className="grid gap-8 md:grid-cols-3">
           {latestArticles.map((article, index) => (
-            <FadeIn key={article.id} delay={index * 100}>
+            <FadeIn key={article.id} delay={index * 160}>
               <LandingArticleCard article={article} />
             </FadeIn>
           ))}

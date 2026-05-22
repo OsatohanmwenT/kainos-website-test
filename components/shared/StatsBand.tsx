@@ -33,13 +33,14 @@ function formatStatValue(value: number, hasDecimal: boolean, suffix: string) {
   return `${formatted}${suffix}`;
 }
 
-function AnimatedStatValue({ value }: { value: string }) {
+function AnimatedStatValue({ value, delay = 0 }: { value: string; delay?: number }) {
   const { numericValue, suffix, hasDecimal } = parseStatValue(value);
   const [displayValue, setDisplayValue] = useState(() =>
     formatStatValue(0, hasDecimal, suffix)
   );
   const ref = useRef<HTMLSpanElement>(null);
   const frameRef = useRef(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -57,22 +58,27 @@ function AnimatedStatValue({ value }: { value: string }) {
       ([entry]) => {
         if (!entry.isIntersecting) return;
 
-        const duration = 1200;
-        const startTime = performance.now();
+        const duration = 1400;
 
-        const animate = (time: number) => {
-          const progress = Math.min((time - startTime) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = numericValue * eased;
+        const start = () => {
+          const startTime = performance.now();
 
-          setDisplayValue(formatStatValue(current, hasDecimal, suffix));
+          const animate = (time: number) => {
+            const progress = Math.min((time - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = numericValue * eased;
 
-          if (progress < 1) {
-            frameRef.current = window.requestAnimationFrame(animate);
-          }
+            setDisplayValue(formatStatValue(current, hasDecimal, suffix));
+
+            if (progress < 1) {
+              frameRef.current = window.requestAnimationFrame(animate);
+            }
+          };
+
+          frameRef.current = window.requestAnimationFrame(animate);
         };
 
-        frameRef.current = window.requestAnimationFrame(animate);
+        timerRef.current = setTimeout(start, delay);
         observer.unobserve(el);
       },
       { threshold: 0.35 }
@@ -82,8 +88,9 @@ function AnimatedStatValue({ value }: { value: string }) {
     return () => {
       observer.disconnect();
       window.cancelAnimationFrame(frameRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [hasDecimal, numericValue, suffix, value]);
+  }, [delay, hasDecimal, numericValue, suffix, value]);
 
   return <span ref={ref}>{displayValue}</span>;
 }
@@ -98,7 +105,7 @@ export function StatsBand({ className = "bg-text-header", style }: StatsBandProp
             className="flex flex-col items-center justify-center text-center lg:border-r lg:border-white/70 last:lg:border-r-0"
           >
             <strong className="font-dm-sans text-3xl font-extrabold text-white md:text-4xl">
-              <AnimatedStatValue value={stat.value} />
+              <AnimatedStatValue value={stat.value} delay={index * 120} />
             </strong>
             <span className="mt-3 font-dm-sans text-sm text-primary-50">
               {stat.label}

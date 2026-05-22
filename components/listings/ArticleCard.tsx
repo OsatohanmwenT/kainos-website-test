@@ -18,7 +18,7 @@ export function FeaturedArticleCard({ article }: { article: PublicArticle }) {
     <div className="relative w-full h-75.75 rounded-2xl overflow-hidden group cursor-pointer">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
       {/* Dark Overlay */}
@@ -84,7 +84,7 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
       {/* Image */}
       <div className="w-full aspect-16/10 rounded-2xl overflow-hidden relative bg-neutral-100">
         <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
       </div>

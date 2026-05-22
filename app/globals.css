@@ -205,7 +205,17 @@
 
 /* Keyframes */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(48px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flip-up {
+  from { opacity: 0; transform: translateY(24px) rotateX(-70deg); }
+  to   { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+
+@keyframes word-up {
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -235,25 +245,39 @@
 }
 
 /* Animation utility classes */
-.animate-fade-up   { animation: fade-up   0.5s cubic-bezier(0.16,1,0.3,1) both; }
-.animate-fade-in   { animation: fade-in   0.4s ease both; }
-.animate-scale-in  { animation: scale-in  0.4s cubic-bezier(0.16,1,0.3,1) both; }
-.animate-slide-right { animation: slide-in-right 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fade-up     { animation: fade-up        0.85s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-flip-up     { animation: flip-up         0.9s  cubic-bezier(0.22,1,0.36,1) both; }
+.animate-word-up     { animation: word-up         0.7s  cubic-bezier(0.22,1,0.36,1) both; }
+.animate-fade-in     { animation: fade-in         0.75s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-scale-in    { animation: scale-in        0.75s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-slide-right { animation: slide-in-right  0.75s cubic-bezier(0.22,1,0.36,1) both; }
 .animate-partner-marquee { animation: partner-marquee 24s linear infinite; }
 
-/* Stagger helpers for children via parent's [data-stagger] */
-.stagger-1  { animation-delay: 60ms; }
-.stagger-2  { animation-delay: 120ms; }
-.stagger-3  { animation-delay: 180ms; }
-.stagger-4  { animation-delay: 240ms; }
-.stagger-5  { animation-delay: 300ms; }
-.stagger-6  { animation-delay: 360ms; }
-.stagger-7  { animation-delay: 420ms; }
-.stagger-8  { animation-delay: 480ms; }
+/* Premium DwelX-inspired Animation utilities */
+.transition-premium {
+  transition-property: transform, opacity, filter, border-color, box-shadow;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+/* Perspective wrapper for 3D flip-up */
+.perspective-hero { perspective: 1000px; }
+
+/* Stagger helpers for children */
+.stagger-1  { animation-delay: 80ms; }
+.stagger-2  { animation-delay: 160ms; }
+.stagger-3  { animation-delay: 240ms; }
+.stagger-4  { animation-delay: 320ms; }
+.stagger-5  { animation-delay: 400ms; }
+.stagger-6  { animation-delay: 480ms; }
+.stagger-7  { animation-delay: 560ms; }
+.stagger-8  { animation-delay: 640ms; }
 
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
+  .animate-flip-up,
+  .animate-word-up,
   .animate-fade-in,
   .animate-scale-in,
   .animate-slide-right,
