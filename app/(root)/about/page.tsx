@@ -34,14 +34,14 @@ export default function AboutPage() {
       {/* Mission & Vision Section */}
       <section className="w-full px-6 py-16 lg:px-16 lg:py-20">
         <div className="mx-auto grid w-full items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
-          <div className="relative aspect-4/3 overflow-hidden rounded-[20px] border border-border-default bg-white shadow-sm md:aspect-16/10 lg:aspect-auto lg:min-h-107.5">
+          <div className="group relative aspect-4/3 overflow-hidden rounded-[20px] border border-border-default bg-white shadow-sm md:aspect-16/10 lg:aspect-auto lg:min-h-107.5">
             <Image
-              src="/about/office-collaboration.png"
-              alt="KainosEdge researchers collaborating around data dashboards"
+              src="/about/image26_color_natural_4k.png"
+              alt="KainosEdge team celebrating a presentation in a meeting room"
               fill
               priority
               sizes="(min-width: 1024px) 48vw, 100vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
 
@@ -109,13 +109,13 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="relative aspect-4/3 overflow-hidden rounded-[20px] border border-border-default bg-white shadow-sm md:aspect-16/10 lg:aspect-auto lg:min-h-107.5">
+          <div className="group relative aspect-4/3 overflow-hidden rounded-[20px] border border-border-default bg-white shadow-sm md:aspect-16/10 lg:aspect-auto lg:min-h-107.5">
             <Image
-              src="/about/researcher-laptop.png"
-              alt="KainosEdge researcher working on economic data analysis"
+              src="/about/image27_color_natural_4k.png"
+              alt="KainosEdge team reviewing documents in a strategy meeting"
               fill
               sizes="(min-width: 1024px) 48vw, 100vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         </div>

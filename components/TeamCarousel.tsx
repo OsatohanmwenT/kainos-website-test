@@ -45,7 +45,7 @@ export function TeamCarousel({ members }: TeamCarouselProps) {
           <article
             key={member.name}
             data-team-card
-            className="w-[68vw] max-w-70 shrink-0 snap-start sm:w-[42vw] sm:max-w-none lg:w-[23vw] xl:w-[21vw]"
+            className="group w-[68vw] max-w-70 shrink-0 snap-start sm:w-[42vw] sm:max-w-none lg:w-[23vw] xl:w-[21vw]"
           >
             <div className="relative aspect-5/6 overflow-hidden rounded-xl border border-border-default bg-white shadow-sm sm:aspect-4/5">
               <Image
@@ -53,7 +53,7 @@ export function TeamCarousel({ members }: TeamCarouselProps) {
                 alt={`${member.name}, ${member.role}`}
                 fill
                 sizes="(min-width: 1280px) 21vw, (min-width: 1024px) 23vw, (min-width: 640px) 42vw, 68vw"
-                className="object-cover object-top"
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
             </div>
             <h3 className="mt-5 truncate font-dm-sans text-lg font-bold text-text-header">
