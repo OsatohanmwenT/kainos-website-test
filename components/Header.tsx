@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -61,9 +62,16 @@ export function Header() {
         <div className="mx-auto flex h-full w-full items-center justify-between">
           <Link
             href="/"
-            className="font-fraunces text-2xl font-semibold tracking-tight text-primary-700 relative z-[60]"
+            className="relative z-[60] flex items-center"
           >
-            KIDMP
+            <Image
+              src="/LOGO.svg"
+              alt="KainosEdge"
+              width={192}
+              height={96}
+              priority
+              className="h-16 w-auto"
+            />
           </Link>
 
           {/* Desktop nav */}

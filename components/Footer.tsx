@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -6,9 +7,13 @@ export function Footer() {
       <div className="mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           <div className="flex flex-col gap-4 lg:pr-8">
-            <h2 className="font-fraunces text-3xl font-bold text-text-header">
-              Kainos Edge
-            </h2>
+            <Image
+              src="/LOGO.svg"
+              alt="KainosEdge"
+              width={240}
+              height={120}
+              className="h-20 w-auto self-start"
+            />
             <p className="font-dm-sans text-neutral-600 text-base leading-relaxed">
               Data-driven research and insights for policy, strategy, and
               institutional decision-making.
