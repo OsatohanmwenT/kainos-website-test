@@ -37,22 +37,32 @@ export const values: AboutValue[] = [
 export const team = [
   {
     name: "Joseph Olaoye Jaiyeola",
-    role: "Chairman, Kainos",
-    image: "/about/team-joseph.png",
+    role: "Chairman",
+    image: "/about/image29_openai_refined_4k.png",
   },
   {
     name: "Dr. Adedoyin Salami",
     role: "Managing Director / CEO",
-    image: "/about/team-adedoyin.png",
+    image: "/about/image30_openai_refined_4k.png",
   },
   {
     name: "Dr. Kyari Abba Bukar",
     role: "Director",
-    image: "/about/team-kyari.png",
+    image: "/about/image34_openai_refined_4k.png",
   },
   {
-    name: "Jibrin Jibya B.",
+    name: "Jibrin Jibiya Baros",
     role: "Chief Operations Officer",
-    image: "/about/team-jibrin.png",
+    image: "/about/image31_openai_refined_4k.png",
+  },
+  {
+    name: "Dr. Eyitemi Adegboye",
+    role: "Senior Consultant",
+    image: "/about/image32_openai_refined_4k.png",
+  },
+  {
+    name: "Dr. Opadeji Opakunle",
+    role: "Senior Consultant",
+    image: "/about/image33_openai_refined_4k.png",
   },
 ];

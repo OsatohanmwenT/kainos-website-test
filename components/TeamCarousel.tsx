@@ -39,7 +39,7 @@ export function TeamCarousel({ members }: TeamCarouselProps) {
     <div className="mt-10">
       <div
         ref={scrollRef}
-        className="-mr-6 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-6 pb-3 [scrollbar-width:none] sm:gap-8 lg:-mx-16 lg:px-16 [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-3 [scrollbar-width:none] sm:gap-8 [&::-webkit-scrollbar]:hidden"
       >
         {members.map((member) => (
           <article
