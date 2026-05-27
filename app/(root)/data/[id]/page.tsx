@@ -2,8 +2,50 @@ import { Button } from "@/components/ui/button";
 import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
 import { getDatasets } from "@/lib/api";
 import { Calendar, Database, Lock } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const data = await getDatasets({ limit: 100 });
+  const dataset = data.datasets?.find((item) => item.id === id);
+
+  if (!dataset) {
+    return { title: "Dataset Not Found" };
+  }
+
+  const description =
+    dataset.summary ??
+    `Access the dataset: ${dataset.public_title} — curated, validated data from KainosEdge Consulting.`;
+
+  return {
+    title: dataset.public_title,
+    description,
+    alternates: { canonical: `/data/${id}` },
+    openGraph: {
+      type: "article",
+      locale: "en_US",
+      siteName: "KainosEdge",
+      title: `${dataset.public_title} | KainosEdge`,
+      description,
+      url: `https://www.kainosedge.com/data/${id}`,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: dataset.public_title }],
+      ...(dataset.publication_date && { publishedTime: dataset.publication_date }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      creator: "@kainosedge",
+      title: `${dataset.public_title} | KainosEdge`,
+      description,
+      images: ["/opengraph-image"],
+    },
+  };
+}
 
 export default async function DatasetDetailsPage({
   params,

@@ -7,20 +7,48 @@ import {
 } from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with KainosEdge for research, data, media, partnership, and consultancy enquiries. We respond within 24 business hours.",
+    "Get in touch with KainosEdge Consulting for research, data, media, partnership, and consultancy enquiries. Based in Ikoyi, Lagos. We respond within 24 business hours.",
+  keywords: [
+    "contact KainosEdge",
+    "KainosEdge Lagos",
+    "economics consulting Nigeria",
+    "research enquiry",
+    "data request",
+    "partnership KainosEdge",
+    "Ikoyi consulting firm",
+  ],
+  alternates: {
+    canonical: "/contact",
+  },
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "KainosEdge",
     title: "Contact Us | KainosEdge",
     description:
-      "Get in touch with KainosEdge for research, data, media, partnership, and consultancy enquiries. We respond within 24 business hours.",
+      "Get in touch with KainosEdge Consulting for research, data, media, partnership, and consultancy enquiries. Based in Ikoyi, Lagos. We respond within 24 business hours.",
     url: "https://www.kainosedge.com/contact",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Contact KainosEdge Consulting",
+      },
+    ],
   },
   twitter: {
+    card: "summary_large_image",
+    creator: "@kainosedge",
     title: "Contact Us | KainosEdge",
     description:
-      "Get in touch with KainosEdge for research, data, media, partnership, and consultancy enquiries. We respond within 24 business hours.",
+      "Get in touch with KainosEdge Consulting for research, data, media, partnership, and consultancy enquiries. Based in Ikoyi, Lagos. We respond within 24 business hours.",
+    images: ["/opengraph-image"],
   },
 };
 

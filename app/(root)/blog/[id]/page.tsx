@@ -1,8 +1,56 @@
 import { ArticleBody } from "@/components/ArticleBody";
 import { getArticles } from "@/lib/api";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const data = await getArticles({ limit: 100 });
+  const article = data.articles?.find((item) => item.id === id);
+
+  if (!article) {
+    return { title: "Article Not Found" };
+  }
+
+  const description =
+    article.summary ??
+    `Read the full article: ${article.title} — expert insight from KainosEdge.`;
+  const ogImage = article.image_url
+    ? [{ url: article.image_url, width: 1200, height: 630, alt: article.title }]
+    : [{ url: "/opengraph-image", width: 1200, height: 630, alt: article.title }];
+
+  return {
+    title: article.title,
+    description,
+    alternates: { canonical: `/blog/${id}` },
+    openGraph: {
+      type: "article",
+      locale: "en_US",
+      siteName: "KainosEdge",
+      title: `${article.title} | KainosEdge`,
+      description,
+      url: `https://www.kainosedge.com/blog/${id}`,
+      images: ogImage,
+      ...(article.published_at && {
+        publishedTime: article.published_at,
+      }),
+      ...(article.author && { authors: [article.author] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      creator: "@kainosedge",
+      title: `${article.title} | KainosEdge`,
+      description,
+      images: [article.image_url ?? "/opengraph-image"],
+    },
+  };
+}
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=1200&h=700";

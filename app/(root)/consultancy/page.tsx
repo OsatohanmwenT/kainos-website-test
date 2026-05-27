@@ -4,20 +4,49 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { mockProcessSteps, mockServices } from "@/lib/mockData";
 import Link from "next/link";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Consultancy Services",
   description:
     "Partner with KainosEdge for tailored research, data analysis, and policy advisory services. Request a consultation with our expert team.",
+  keywords: [
+    "policy consulting",
+    "research consulting",
+    "data analysis services",
+    "institutional advisory",
+    "economic consulting",
+    "Africa consultancy",
+    "KainosEdge consultancy",
+    "policy advisory",
+  ],
+  alternates: {
+    canonical: "/consultancy",
+  },
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "KainosEdge",
     title: "Consultancy Services | KainosEdge",
     description:
       "Partner with KainosEdge for tailored research, data analysis, and policy advisory services. Request a consultation with our expert team.",
     url: "https://www.kainosedge.com/consultancy",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "KainosEdge Consultancy Services",
+      },
+    ],
   },
   twitter: {
+    card: "summary_large_image",
+    creator: "@kainosedge",
     title: "Consultancy Services | KainosEdge",
     description:
       "Partner with KainosEdge for tailored research, data analysis, and policy advisory services. Request a consultation with our expert team.",
+    images: ["/opengraph-image"],
   },
 };
 

@@ -5,20 +5,48 @@ import { PartnerLogos } from "@/components/shared/PartnerLogos";
 import { StatsBand } from "@/components/shared/StatsBand";
 import Image from "next/image";
 
-export const metadata = {
-  title: "About KainosEdge",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
   description:
     "Learn about KainosEdge — our mission to drive institutional growth across Africa, our values, research story, team, and partners.",
+  keywords: [
+    "about KainosEdge",
+    "KainosEdge mission",
+    "institutional research Africa",
+    "economic research team",
+    "policy analysts",
+    "data scientists Africa",
+    "KainosEdge story",
+  ],
+  alternates: {
+    canonical: "/about",
+  },
   openGraph: {
-    title: "About KainosEdge",
+    type: "website",
+    locale: "en_US",
+    siteName: "KainosEdge",
+    title: "About KainosEdge | Research, Data & Policy Consulting",
     description:
       "Learn about KainosEdge — our mission to drive institutional growth across Africa, our values, research story, team, and partners.",
     url: "https://www.kainosedge.com/about",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "About KainosEdge",
+      },
+    ],
   },
   twitter: {
-    title: "About KainosEdge",
+    card: "summary_large_image",
+    creator: "@kainosedge",
+    title: "About KainosEdge | Research, Data & Policy Consulting",
     description:
       "Learn about KainosEdge — our mission to drive institutional growth across Africa, our values, research story, team, and partners.",
+    images: ["/opengraph-image"],
   },
 };
 

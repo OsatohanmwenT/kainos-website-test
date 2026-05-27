@@ -2,8 +2,50 @@ import { Button } from "@/components/ui/button";
 import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
 import { getReports } from "@/lib/api";
 import { Calendar, FileText, Lock, User } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const data = await getReports({ limit: 100 });
+  const report = data.reports?.find((item) => item.id === id);
+
+  if (!report) {
+    return { title: "Report Not Found" };
+  }
+
+  const description =
+    report.summary ??
+    `Access the full research report: ${report.public_title} — institutional-grade analysis from KainosEdge Consulting.`;
+
+  return {
+    title: report.public_title,
+    description,
+    alternates: { canonical: `/reports/${id}` },
+    openGraph: {
+      type: "article",
+      locale: "en_US",
+      siteName: "KainosEdge",
+      title: `${report.public_title} | KainosEdge`,
+      description,
+      url: `https://www.kainosedge.com/reports/${id}`,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: report.public_title }],
+      ...(report.publication_date && { publishedTime: report.publication_date }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      creator: "@kainosedge",
+      title: `${report.public_title} | KainosEdge`,
+      description,
+      images: ["/opengraph-image"],
+    },
+  };
+}
 
 export default async function ReportDetailsPage({
   params,

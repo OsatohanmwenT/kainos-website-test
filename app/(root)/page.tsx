@@ -1,14 +1,29 @@
 import { HomePageContent } from "@/components/home/HomePageContent";
 import { getArticles, getDatasets, getReports } from "@/lib/api";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Research, Data & Policy Consulting for Institutions",
   description:
     "Access KainosEdge research reports, curated datasets, and expert policy consulting built for institutional decision-makers across Africa.",
+  keywords: [
+    "KainosEdge",
+    "institutional research",
+    "economic data",
+    "policy consulting",
+    "research reports",
+    "Africa",
+    "Nigeria",
+    "data analytics",
+    "policy advisory",
+  ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "KainosEdge",
     title: "KainosEdge | Research, Data & Policy Consulting",
     description:
       "Access research reports, curated datasets, and expert policy consulting built for institutional decision-makers across Africa.",
@@ -24,6 +39,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    creator: "@kainosedge",
     title: "KainosEdge | Research, Data & Policy Consulting",
     description:
       "Access research reports, curated datasets, and expert policy consulting built for institutional decision-makers across Africa.",
