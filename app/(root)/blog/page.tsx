@@ -11,7 +11,7 @@ export const metadata = {
     title: "Blog & Insights | KainosEdge",
     description:
       "Expert perspectives on economic policy, research methodology, and data analysis from our team of institutional researchers.",
-    url: "https://kainosedge.org/blog",
+    url: "https://www.kainosedge.com/blog",
   },
   twitter: {
     title: "Blog & Insights | KainosEdge",

@@ -25,43 +25,60 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kainosedge.org"),
+  metadataBase: new URL("https://www.kainosedge.com"),
   title: {
-    default: "KainosEdge | Institutional Data & Research Platform",
+    default: "KainosEdge | Research, Data & Policy Consulting",
     template: "%s | KainosEdge",
   },
   description:
-    "Evidence-based reports, curated datasets, and expert consultancy services powering institutional decision-making across Africa.",
+    "KainosEdge provides evidence-based research reports, curated datasets, and policy consulting for institutions making data-driven decisions across Africa.",
+  applicationName: "KainosEdge",
   keywords: [
+    "KainosEdge",
     "institutional research",
     "economic data",
     "policy analysis",
+    "data consulting",
+    "research consultancy",
     "Africa",
     "Nigeria",
     "datasets",
     "research reports",
     "consultancy",
   ],
-  authors: [{ name: "KainosEdge", url: "https://kainosedge.org" }],
+  authors: [{ name: "KainosEdge", url: "https://www.kainosedge.com" }],
   creator: "KainosEdge",
+  publisher: "KainosEdge",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/icon.svg",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://kainosedge.org",
+    url: "https://www.kainosedge.com",
     siteName: "KainosEdge",
-    title: "KainosEdge | Institutional Data & Research Platform",
+    title: "KainosEdge | Research, Data & Policy Consulting",
     description:
-      "Evidence-based reports, curated datasets, and expert consultancy services powering institutional decision-making across Africa.",
+      "Evidence-based reports, curated datasets, and expert consulting for institutions making data-driven decisions across Africa.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "KainosEdge research, data, and policy consulting preview",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "KainosEdge | Institutional Data & Research Platform",
+    title: "KainosEdge | Research, Data & Policy Consulting",
     description:
-      "Evidence-based reports, curated datasets, and expert consultancy services powering institutional decision-making across Africa.",
+      "Evidence-based reports, curated datasets, and expert consulting for institutions making data-driven decisions across Africa.",
     creator: "@kainosedge",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

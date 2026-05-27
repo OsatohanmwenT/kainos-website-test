@@ -13,7 +13,7 @@ export const metadata = {
     title: "About KainosEdge",
     description:
       "Learn about KainosEdge — our mission to drive institutional growth across Africa, our values, research story, team, and partners.",
-    url: "https://kainosedge.org/about",
+    url: "https://www.kainosedge.com/about",
   },
   twitter: {
     title: "About KainosEdge",

@@ -15,7 +15,7 @@ export const metadata = {
     title: "Contact Us | KainosEdge",
     description:
       "Get in touch with KainosEdge for research, data, media, partnership, and consultancy enquiries. We respond within 24 business hours.",
-    url: "https://kainosedge.org/contact",
+    url: "https://www.kainosedge.com/contact",
   },
   twitter: {
     title: "Contact Us | KainosEdge",

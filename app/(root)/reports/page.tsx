@@ -9,7 +9,7 @@ export const metadata = {
     title: "Research Reports | KainosEdge",
     description:
       "Access our comprehensive library of institutional research reports covering economic policy, social indicators, and strategic analysis across Africa.",
-    url: "https://kainosedge.org/reports",
+    url: "https://www.kainosedge.com/reports",
   },
   twitter: {
     title: "Research Reports | KainosEdge",

@@ -12,7 +12,7 @@ export const metadata = {
     title: "Consultancy Services | KainosEdge",
     description:
       "Partner with KainosEdge for tailored research, data analysis, and policy advisory services. Request a consultation with our expert team.",
-    url: "https://kainosedge.org/consultancy",
+    url: "https://www.kainosedge.com/consultancy",
   },
   twitter: {
     title: "Consultancy Services | KainosEdge",

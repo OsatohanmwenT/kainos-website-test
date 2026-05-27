@@ -9,7 +9,7 @@ export const metadata = {
     title: "Public Datasets | KainosEdge",
     description:
       "Access curated, validated datasets covering fiscal, monetary, and socioeconomic indicators with full documentation and methodology notes.",
-    url: "https://kainosedge.org/data",
+    url: "https://www.kainosedge.com/data",
   },
   twitter: {
     title: "Public Datasets | KainosEdge",

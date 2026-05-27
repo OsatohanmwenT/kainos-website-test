@@ -1,5 +1,6 @@
 import { PublicArticle } from "@/lib/api/types";
 import { Calendar, Clock, User } from "lucide-react";
+import Link from "next/link";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=500";
 
@@ -15,7 +16,10 @@ export function FeaturedArticleCard({ article }: { article: PublicArticle }) {
   const imageUrl = article.image_url ?? FALLBACK_IMAGE;
 
   return (
-    <div className="relative w-full h-75.75 rounded-2xl overflow-hidden group cursor-pointer">
+    <Link
+      href={`/blog/${article.id}`}
+      className="relative block w-full h-75.75 rounded-2xl overflow-hidden group cursor-pointer"
+    >
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
@@ -72,7 +76,7 @@ export function FeaturedArticleCard({ article }: { article: PublicArticle }) {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -80,7 +84,10 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
   const imageUrl = article.image_url ?? FALLBACK_IMAGE;
 
   return (
-    <div className="w-full flex flex-col group cursor-pointer gap-4">
+    <Link
+      href={`/blog/${article.id}`}
+      className="w-full flex flex-col group cursor-pointer gap-4"
+    >
       {/* Image */}
       <div className="w-full aspect-16/10 rounded-2xl overflow-hidden relative bg-neutral-100">
         <div
@@ -115,6 +122,6 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
           </p>
         )}
       </div>
-    </div>
+    </Link>
   );
 }

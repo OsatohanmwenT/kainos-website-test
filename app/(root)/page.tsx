@@ -2,19 +2,32 @@ import { HomePageContent } from "@/components/home/HomePageContent";
 import { getArticles, getDatasets, getReports } from "@/lib/api";
 
 export const metadata = {
-  title: "Data-Driven Insights for Institutional Decision-Making",
+  title: "Research, Data & Policy Consulting for Institutions",
   description:
-    "Access evidence-based reports, curated datasets, and expert consultancy services designed for institutional decision-makers across Africa.",
+    "Access KainosEdge research reports, curated datasets, and expert policy consulting built for institutional decision-makers across Africa.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "KainosEdge | Data-Driven Insights",
+    title: "KainosEdge | Research, Data & Policy Consulting",
     description:
-      "Access evidence-based reports, curated datasets, and expert consultancy services designed for institutional decision-makers across Africa.",
-    url: "https://kainosedge.org",
+      "Access research reports, curated datasets, and expert policy consulting built for institutional decision-makers across Africa.",
+    url: "https://www.kainosedge.com",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "KainosEdge research, data, and policy consulting preview",
+      },
+    ],
   },
   twitter: {
-    title: "KainosEdge | Data-Driven Insights",
+    card: "summary_large_image",
+    title: "KainosEdge | Research, Data & Policy Consulting",
     description:
-      "Access evidence-based reports, curated datasets, and expert consultancy services designed for institutional decision-makers across Africa.",
+      "Access research reports, curated datasets, and expert policy consulting built for institutional decision-makers across Africa.",
+    images: ["/opengraph-image"],
   },
 };
 
