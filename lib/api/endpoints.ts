@@ -1,5 +1,5 @@
 export const API_ENDPOINTS = {
-  articles: "/blog",
+  articles: "/api/v1/blog",
   contact: "/public/contact",
   consultations: "/public/consultancy",
   consultancyRequests: "/public/consultancy-requests",
