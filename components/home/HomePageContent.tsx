@@ -1,9 +1,9 @@
+import { FadeIn } from "@/components/FadeIn";
 import { ArrowMoveIcon, SendIcon } from "@/components/icons";
 import { PublicationDownloadButton } from "@/components/publications/PublicationFile";
 import { PartnerLogos } from "@/components/shared/PartnerLogos";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
 import { StatsBand } from "@/components/shared/StatsBand";
-import { FadeIn } from "@/components/FadeIn";
 import { TextAnimate } from "@/components/TextAnimate";
 import type {
     PublicArticle,
@@ -67,8 +67,8 @@ function HeroDashboard() {
           width={176}
           height={112}
           sizes="176px"
-          className="h-auto w-full"
-          style={{ height: "auto" }}
+          className="block"
+          style={{ width: "100%", height: "auto" }}
         />
       </FadeIn>
 
@@ -84,8 +84,8 @@ function HeroDashboard() {
           width={192}
           height={96}
           sizes="192px"
-          className="h-auto w-full"
-          style={{ height: "auto" }}
+          className="block"
+          style={{ width: "100%", height: "auto" }}
         />
       </FadeIn>
 
