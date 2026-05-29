@@ -189,7 +189,7 @@ function LandingReportCard({ report }: { report: PublicReport }) {
           fallbackDownloadUrl={fallbackDownloadUrl}
           fallbackFileName={report.stored_items?.file_name}
           requestAccessHref={accessHref}
-          className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
+          className="mt-6 w-full inline-flex h-12 items-center justify-center rounded-2xl bg-primary-500 px-5 font-dm-sans text-sm font-bold text-white transition-colors hover:bg-primary-700"
         />
       ) : (
         <a
